@@ -1,0 +1,54 @@
+# This file exists so you can easily regenerate your project.
+#
+# `cookiepatcher` is a convenient shim around `cookiecutter`
+# for regenerating projects (it will generate a .cookiecutterrc
+# automatically for any template). To use it:
+#
+#    pip install cookiepatcher
+#    cookiepatcher gh:ionelmc/cookiecutter-pylibrary project-path
+#
+# See:
+#    https://pypi.python.org/pypi/cookiepatcher
+#
+# Alternatively, you can run:
+#
+#    cookiecutter --overwrite-if-exists --config-file=project-path/.cookiecutterrc gh:ionelmc/cookiecutter-pylibrary
+
+default_context:
+
+    _template:                 'gh:ionelmc/cookiecutter-pylibrary'
+    appveyor:                  'no'
+    c_extension_function:      'longest'
+    c_extension_module:        '_momoapi_python'
+    c_extension_optional:      'yes'
+    c_extension_support:       'no'
+    codacy:                    'no'
+    codeclimate:               'no'
+    codecov:                   'no'
+    command_line_interface:    'click'
+    command_line_interface_bin_name: 'momoapi'
+    coveralls:                 'yes'
+    distribution_name:         'momoapi-python'
+    email:                     'mugisha@sparkpl.ug'
+    full_name:                 'Moses Mugisha'
+    github_username:           'mossplix'
+    landscape:                 'no'
+    license:                   'MIT license'
+    linter:                    'flake8'
+    package_name:              'momoapi_python'
+    project_name:              'momoapi-python'
+    project_short_description: 'An example package. Generated with cookiecutter-pylibrary.'
+    release_date:              'today'
+    repo_name:                 'python-momoapi'
+    requiresio:                'no'
+    scrutinizer:               'no'
+    sphinx_docs:               'yes'
+    sphinx_doctest:            'no'
+    sphinx_theme:              'sphinx-py3doc-enhanced-theme'
+    test_matrix_configurator:  'yes'
+    test_matrix_separate_coverage: 'no'
+    test_runner:               'pytest'
+    travis:                    'no'
+    version:                   '0.1.0'
+    website:                   'http://sparkpl.ug'
+    year:                      'now'
