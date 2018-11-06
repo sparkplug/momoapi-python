@@ -95,8 +95,20 @@ class MomoApi(object):
         r = requests.post("https://ericssonbasicapi2.azure-api.net/colection/token/ ", data=data, headers=headers)
 
 
-    def requestToPay(self):
+    def requestToPay(self,mobile,amount,product_id,note="",message="",currency="EUR",  environment="sandbox"):
+        ref= uuid.uuid4()
+        data =  {  "payer": {"partyIdType": "MSISDN", "partyId": mobile }, "payeeNote": note, "payerMessage": message,"externalId": product_id,"currency": currency, "amount":amount}
+        headers={
+                "X-Target-Environment":environment,
+                 "Content-Type": "application/json",
+                 "X-Reference-Id": ref,
+
+        }
         url="https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay"
+        res = self.request("POST", url, headers, data)
+
+        return ref
+
 
     def close(self):
         if self._session is not None:
