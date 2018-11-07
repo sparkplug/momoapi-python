@@ -26,20 +26,20 @@ class MoMoAuth(AuthBase):
 
     def __call__(self, r):
         # modify and return the request
-        r.headers['Authentication'] = "Bearer %s" % token)
+        r.headers['Authentication'] = "Bearer %s" % token
         return r
+
 
 class MomoApi(object):
 
-    def __init__(self, timeout = 80, session = None, api_key = None, user_id = None, **kwargs):
+    def __init__(self, timeout=80, session=None, api_key=None, user_id=None, **kwargs):
         super(MomoApi, self).__init__(**kwargs)
-        self._session=session or Session()
-        self.api_key=api_key
-        self.user_id=user_id
+        self._session = session or Session()
+        self.api_key = api_key
+        self.user_id = user_id
 
-
-    def request(self, method, url, headers, post_data = None):
-         self.authToken=json.loads(self.getAuthToken().text)
+    def request(self, method, url, headers, post_data=None):
+         self.authToken = json.loads(self.getAuthToken().text)
         request=Request(method,  url, data = post_data, headers = headers, auth = MoMoAuth(self.token))
 
         prepped=self._session.prepare_request(request)

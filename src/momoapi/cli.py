@@ -17,19 +17,33 @@ Why does this file exist, and why not put this in __main__?
 import click
 import requests
 import uuid
+import time
+import json
 
 
 def generateToken(host, key):
     data = {"providerCallbackHost": host}
-    token = uuid.uuid4()
+    token = "%s" % uuid.uuid4()
+    click.echo(token)
+
     headers = {
         "X-Reference-Id": "%s" % token,
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": "%s" % key
+        "Ocp-Apim-Subscription-Key": key
     }
-    r = requests.post("https://ericssonbasicapi2.azure-api.net/v1_0/apiuser", data=data, headers=headers)
 
-    return "Your token is %s : your secret key is : %s" % (token, r.text)
+    click.echo(headers)
+
+    r = requests.post("https://ericssonbasicapi2.azure-api.net/v1_0/apiuser", data=json.dumps(data), headers=headers)
+    click.echo(str(r))
+    time.sleep(5)
+
+    del headers["X-Reference-Id"]
+    url = "https://ericssonbasicapi2.azure-api.net/v1_0/apiuser/%s/apikey" % token
+
+    res = requests.post(url, data=json.dumps({}), headers=headers)
+
+    return "%s Your token is %s : your secret key is : %s" % (r.text, token, res.text)
 
 
 @click.command()
