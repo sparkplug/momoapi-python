@@ -8,6 +8,7 @@ from requests import Request, Session
 from requests.auth import AuthBase
 import base64
 from requests.auth import HTTPBasicAuth
+from requests._internal_utils import to_native_string
 
 
 class Response:
@@ -16,7 +17,7 @@ class Response:
         self.body = body
         self.code = code
         self.headers = headers
-        self.data = json.loads(body)
+        self.data = body
 
 
 class MoMoAuth(AuthBase):
@@ -28,7 +29,8 @@ class MoMoAuth(AuthBase):
 
     def __call__(self, r):
         # modify and return the request
-        r.headers['Authentication'] = "Bearer %s" % self.token
+
+        r.headers['Authorization'] = "Bearer "+to_native_string(self.token)
         return r
 
 
@@ -42,8 +44,9 @@ class MomoApi(object):
         self.auth_key = auth_key
 
     def request(self, method, url, headers, post_data=None):
-        self.authToken = json.loads(self.getAuthToken().text)
-        request = Request(method,  url, data=json.dumps(post_data), headers=headers, auth=MoMoAuth(self.token))
+        self.authToken = self.getAuthToken().json()["access_token"]
+        print(self.authToken)
+        request = Request(method,  url, data=json.dumps(post_data), headers=headers, auth=MoMoAuth("%s" % self.authToken))
 
         prepped = self._session.prepare_request(request)
 
@@ -51,21 +54,18 @@ class MomoApi(object):
                                   verify=False
                                   )
         return self.interpret_response(resp)
+        # return self.interpret_response(resp)
 
     def interpret_response(self, resp):
         rcode = resp.status_code
         rheaders = resp.headers
-        rbody = resp.body
 
         try:
-            if hasattr(rbody, 'decode'):
-                rbody = rbody.decode('utf-8')
+            rbody = resp.json()
+        except json.decoder.JSONDecodeError:
+            rbody = resp.text
             resp = Response(rbody, rcode, rheaders)
-        except Exception:
-            raise APIError(
-                "Invalid response body from API: %s "
-                "(HTTP response code was %d)" % (rbody, rcode),
-                rbody, rcode, rheaders)
+
         if not (200 <= rcode < 300):
             self.handle_error_response(rbody, rcode, resp.data, rheaders)
 
@@ -90,9 +90,7 @@ class MomoApi(object):
     def getAuthToken(self):
         data = json.dumps({})
         auth = "%s:%s" % (self.user_id, self.api_secret)
-        print(auth)
         bs64 = base64.b64encode(auth.encode())
-        print(bs64)
         headers = {
             "Content-Type": "application/json",
 
@@ -100,10 +98,10 @@ class MomoApi(object):
         }
         r = requests.post("https://ericssonbasicapi2.azure-api.net/colection/token/",
                           auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
-        return r.json()
+        return r
 
     def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR",  environment="sandbox"):
-        ref = uuid.uuid4()
+        ref = str(uuid.uuid4())
         data = {"payer": {"partyIdType": "MSISDN", "partyId": mobile}, "payeeNote": note,
                 "payerMessage": message, "externalId": product_id, "currency": currency, "amount": amount}
         headers = {
@@ -116,7 +114,7 @@ class MomoApi(object):
         }
         url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay"
         res = self.request("POST", url, headers, data)
-        return res.json()
+        return {"transaction_ref": ref}
 
     def close(self):
         if self._session is not None:
