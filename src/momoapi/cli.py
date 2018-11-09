@@ -24,7 +24,6 @@ import json
 def generateToken(host, key):
     data = {"providerCallbackHost": host}
     token = "%s" % uuid.uuid4()
-    click.echo(token)
 
     headers = {
         "X-Reference-Id": "%s" % token,
@@ -32,10 +31,7 @@ def generateToken(host, key):
         "Ocp-Apim-Subscription-Key": key
     }
 
-    click.echo(headers)
-
     r = requests.post("https://ericssonbasicapi2.azure-api.net/v1_0/apiuser", data=json.dumps(data), headers=headers)
-    click.echo(str(r))
     time.sleep(5)
 
     del headers["X-Reference-Id"]
@@ -43,7 +39,12 @@ def generateToken(host, key):
 
     res = requests.post(url, data=json.dumps({}), headers=headers)
 
-    return "%s Your token is %s : your secret key is : %s" % (r.text, token, res.text)
+    rr = res.json()
+    ret = {}
+    ret["UserId"] = token
+    ret["APISecret"] = rr["apiKey"]
+
+    return "Here is your User Id and API secret : %s" % ret
 
 
 @click.command()
