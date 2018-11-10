@@ -45,7 +45,6 @@ class MomoApi(object):
 
     def request(self, method, url, headers, post_data=None):
         self.authToken = self.getAuthToken().json()["access_token"]
-        print(self.authToken)
         request = Request(method,  url, data=json.dumps(post_data), headers=headers, auth=MoMoAuth("%s" % self.authToken))
 
         prepped = self._session.prepare_request(request)
@@ -115,6 +114,17 @@ class MomoApi(object):
         url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay"
         res = self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
+
+    def getBalance(self, environment="sandbox"):
+        headers = {
+            "X-Target-Environment": environment,
+            "Content-Type": "application/json",
+            "Ocp-Apim-Subscription-Key": self.auth_key
+        }
+        url = ""
+
+    def getTransactionStatus(self, environment="sandbox"):
+        pass
 
     def close(self):
         if self._session is not None:
