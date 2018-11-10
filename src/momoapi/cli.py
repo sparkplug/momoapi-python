@@ -31,22 +31,25 @@ def generateToken(host, key):
         "Ocp-Apim-Subscription-Key": key
     }
 
-    r = requests.post("https://ericssonbasicapi2.azure-api.net/v1_0/apiuser", data=json.dumps(data), headers=headers)
-    time.sleep(5)
+    try:
+      requests.post("https://ericssonbasicapi2.azure-api.net/v1_0/apiuser", data=json.dumps(data), headers=headers)
+      time.sleep(5)
 
-    del headers["X-Reference-Id"]
-    url = "https://ericssonbasicapi2.azure-api.net/v1_0/apiuser/%s/apikey" % token
+    except requests.ConnectionError:
+      error = "ERROR:: No network connection"
+      return error
 
-    res = requests.post(url, data=json.dumps({}), headers=headers)
+    else:
+      del headers["X-Reference-Id"]
+      
+      url = "https://ericssonbasicapi2.azure-api.net/v1_0/apiuser/%s/apikey" % token
 
-    rr = res.json()
-    ret = {}
-    if not (200 <= res.status_code < 300):
-        return rr
-    ret["UserId"] = token
-    ret["APISecret"] = rr["apiKey"]
+      res = requests.post(url, data=json.dumps({}), headers=headers)
 
-    return "Here is your User Id and API secret : %s" % ret
+      rr = res.json()
+      rr['UserId'] = token
+
+    return rr
 
 
 @click.command()

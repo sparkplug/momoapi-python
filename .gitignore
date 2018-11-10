@@ -20,6 +20,7 @@ develop-eggs
 lib
 lib64
 venv*/
+ENV*/
 pyvenv*/
 
 # Installer logs
@@ -66,3 +67,6 @@ docs/_build
 
 # Mypy Cache
 .mypy_cache/
+
+# IDE files
+.vscode/
