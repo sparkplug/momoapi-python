@@ -68,7 +68,7 @@ setup(
     ],
     install_requires=[
         'click',
-        'requests==2.18.4'
+        'requests>=2.20.0'
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
     ],
     extras_require={
