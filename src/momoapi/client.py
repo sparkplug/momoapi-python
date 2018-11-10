@@ -1,6 +1,5 @@
 import requests
 import textwrap
-from .error import APIConnectionError
 import json
 import uuid
 from .errors import APIError
