@@ -2,6 +2,7 @@
 
 ## Installation
 
+First, ensure that the you have a virtualenv enabled before you proceed.
 
 Install from source with:
 

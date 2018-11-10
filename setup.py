@@ -27,14 +27,14 @@ setup(
     name='momoapi',
     version='0.1.0',
     license='MIT license',
-    description='An example package. Generated with cookiecutter-pylibrary.',
+    description='Python wrapper for the MTN MoMo API.',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     author='Sparkplug',
     author_email='mugisha@sparkpl.ug',
-    url='https://github.com/mossplix/python-momoapi',
+    url='https://github.com/sparkplug/momoapi-python',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
@@ -64,11 +64,11 @@ setup(
         'Topic :: Utilities',
     ],
     keywords=[
-        # eg: 'keyword1', 'keyword2', 'keyword3',
+         'MoMo API', 'MoMo API Python Wrapper', 'MoMo API Python',
     ],
     install_requires=[
         'click',
-        'requests>=2.20.0'
+        'requests'
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
     ],
     extras_require={
