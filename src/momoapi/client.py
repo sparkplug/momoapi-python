@@ -127,9 +127,10 @@ class MomoApi(object):
             "X-Target-Environment": environment,
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
-
-
         }
+        url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay/"+transaction_id
+        res = self.request("GET", url, headers)
+        return res.json()
 
     def close(self):
         if self._session is not None:
