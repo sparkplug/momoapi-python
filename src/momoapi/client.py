@@ -122,8 +122,14 @@ class MomoApi(object):
         }
         url = ""
 
-    def getTransactionStatus(self, environment="sandbox"):
-        pass
+    def getTransactionStatus(self, transaction_id,  environment="sandbox"):
+        headers = {
+            "X-Target-Environment": environment,
+            "Content-Type": "application/json",
+            "Ocp-Apim-Subscription-Key": self.auth_key
+
+
+        }
 
     def close(self):
         if self._session is not None:

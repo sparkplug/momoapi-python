@@ -41,6 +41,8 @@ def generateToken(host, key):
 
     rr = res.json()
     ret = {}
+    if not (200 <= res.status_code < 300):
+        return rr
     ret["UserId"] = token
     ret["APISecret"] = rr["apiKey"]
 
