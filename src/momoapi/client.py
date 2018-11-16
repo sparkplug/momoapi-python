@@ -120,7 +120,9 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = ""
+        url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/account/balance"
+        res = self.request("GET", url, headers)
+        return res.json()
 
     def getTransactionStatus(self, transaction_id,  environment="sandbox"):
         headers = {
