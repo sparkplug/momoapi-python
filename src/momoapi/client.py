@@ -35,12 +35,13 @@ class MoMoAuth(AuthBase):
 
 class MomoApi(object):
 
-    def __init__(self, auth_key, user_id, api_secret, **kwargs):
+    def __init__(self, auth_key, user_id, api_secret, base_url="https://ericssonbasicapi2.azure-api.net", ** kwargs):
         super(MomoApi, self).__init__(**kwargs)
         self._session = Session()
         self.api_secret = api_secret
         self.user_id = user_id
         self.auth_key = auth_key
+        self.base_url = base_url
 
     def request(self, method, url, headers, post_data=None):
         self.authToken = self.getAuthToken().json()["access_token"]
@@ -52,7 +53,6 @@ class MomoApi(object):
                                   verify=False
                                   )
         return self.interpret_response(resp)
-        # return self.interpret_response(resp)
 
     def interpret_response(self, resp):
         rcode = resp.status_code
@@ -65,7 +65,7 @@ class MomoApi(object):
             resp = Response(rbody, rcode, rheaders)
 
         if not (200 <= rcode < 300):
-            self.handle_error_response(rbody, rcode, resp.data, rheaders)
+            self.handle_error_response(rbody, rcode, resp.text, rheaders)
 
         return resp
 
@@ -94,7 +94,7 @@ class MomoApi(object):
 
             "Ocp-Apim-Subscription-Key": "%s" % self.auth_key
         }
-        r = requests.post("https://ericssonbasicapi2.azure-api.net/colection/token/",
+        r = requests.post(self.base_url+"/colection/token/",
                           auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
         return r
 
@@ -110,7 +110,7 @@ class MomoApi(object):
 
 
         }
-        url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay"
+        url = self.base_url+"/colection/v1_0/requesttopay"
         res = self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
 
@@ -120,18 +120,58 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/account/balance"
+        url = self.base_url+"/colection/v1_0/account/balance"
         res = self.request("GET", url, headers)
         return res.json()
 
     def getTransactionStatus(self, transaction_id,  environment="sandbox"):
+
         headers = {
             "X-Target-Environment": environment,
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = "https://ericssonbasicapi2.azure-api.net/colection/v1_0/requesttopay/"+transaction_id
+        url = self.base_url+"/colection/v1_0/requesttopay/"+transaction_id
         res = self.request("GET", url, headers)
+        return res.json()
+
+    def transfer(self, amount, mobile, note="", message="", currency="EUR", environment="sandbox"):
+        external_ref = str(uuid.uuid4())
+        data = {
+            "amount": amount,
+            "currency": currency,
+            "externalId": external_ref,
+            "payee": {
+                "partyIdType": "MSISDN",
+                "partyId": mobile
+            },
+            "payerMessage": message,
+            "payeeNote": note
+        }
+        headers = {
+            "X-Target-Environment": environment,
+            "Content-Type": "application/json",
+            "Ocp-Apim-Subscription-Key": self.auth_key
+        }
+        url = self.base_url+"/v1_0/transfer"
+        res = self.request("POST", url, headers, data)
+        return {"transaction_ref": external_ref}
+
+    @classmethod
+    def generateToken(self, host, api_user, api_key, base_url, environment="sandbox"):
+        data = {"providerCallbackHost": host}
+
+        headers = {
+            "Content-Type": "application/json",
+            "Ocp-Apim-Subscription-Key": api_key,
+            "X-Target-Environment": environment,
+        }
+
+        url = base_url+"/v1_0/apiuser/%s/apikey" % api_user
+
+        res = requests.post(url, data=json.dumps({}), headers=headers)
+        print(res)
+
         return res.json()
 
     def close(self):
