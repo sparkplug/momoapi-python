@@ -49,7 +49,7 @@ We shall now import the library onto the commandline. Let us try to make a colle
 ```python
 from momoapi.client import MomoApi
 client = MomoApi(APIKEY,USERID,APISECRET)
-ref=client.requestToPay("256794631873", "600", "123456789", note="dd", message="dd", currency="EUR", environment="sandbox")
+ref=client.requestToPay("256772123456", "600", "123456789", note="dd", message="dd", currency="EUR", environment="sandbox")
 ```
 
 So, what just happened? We create a client on the commandline, and made a `requestToPay` transaction. How do we know this happened? Still on the commandline, input `ref`
