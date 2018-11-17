@@ -51,3 +51,24 @@ from momoapi.client import MomoApi
 client = MomoApi(APIKEY,USERID,APISECRET)
 ref=client.requestToPay("256794631873", "600", "123456789", note="dd", message="dd", currency="EUR", environment="sandbox")
 ```
+
+So, what just happened? We create a client on the commandline, and made a `requestToPay` transaction. How do we know this happened? Still on the commandline, input `ref`
+
+```python
+ref
+```
+
+You should see a response similar to this:
+
+```python
+>>> ref
+{'transaction_ref': '33a9d94b-6828-4879-xxxx-e0ecb946d465'}
+```
+We can then use this `Transaction Reference` to get the status of the `Transaction`
+
+```python
+client.getTransactionStatus('33a9d94b-6828-4879-xxxx-e0ecb946d465')
+{'financialTransactionId': '1854386795', 'externalId': '123456789', 'amount': '600', 'currency': 'EUR', 'payer': {'partyIdType': 'MSISDN', 'partyId': '256794631873'}, 'payerMessage': 'dd', 'payeeNote': 'dd', 'status': 'SUCCESSFUL'}
+```
+
+Voila!
