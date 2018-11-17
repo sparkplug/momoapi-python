@@ -9,6 +9,11 @@ import base64
 from requests.auth import HTTPBasicAuth
 from requests._internal_utils import to_native_string
 
+try:
+    from json.decoder import JSONDecodeError
+except ImportError:
+    JSONDecodeError = ValueError
+
 
 class Response:
 
@@ -60,7 +65,7 @@ class MomoApi(object):
 
         try:
             rbody = resp.json()
-        except json.decoder.JSONDecodeError:
+        except JSONDecodeError:
             rbody = resp.text
             resp = Response(rbody, rcode, rheaders)
 
