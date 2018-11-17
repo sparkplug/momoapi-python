@@ -35,7 +35,7 @@ $ providerCallBackHost: https://akabbo.ug
 $ Ocp-Apim-Subscription-Key: f83xx8d8xx6749f19a26e2265aeadbcdeg
 ```
 
-where `providerCallBackHost` is your callback host and `Ocp-Apim-Subscription-Key` is your account's API key. You should get the following response.
+where `providerCallBackHost` is your callback host and `Ocp-Apim-Subscription-Key` is your API key for the specific product to which you are subscribed. The `API Key` is unique to the product and you will need an `API Key` for each product you use. You should get the following response.
 
 ```bash
 Here is your User Id and API secret : {'apiKey': 'b0431db58a9b41faa8f5860230xxxxxx', 'UserId': '053c6dea-dd68-xxxx-xxxx-c830dac9f401'}
