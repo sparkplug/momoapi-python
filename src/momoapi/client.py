@@ -99,7 +99,7 @@ class MomoApi(object):
 
             "Ocp-Apim-Subscription-Key": "%s" % self.auth_key
         }
-        r = requests.post(self.base_url+"/colection/token/",
+        r = requests.post(self.base_url+"/collection/token/",
                           auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
         return r
 
@@ -115,7 +115,7 @@ class MomoApi(object):
 
 
         }
-        url = self.base_url+"/colection/v1_0/requesttopay"
+        url = self.base_url+"/collection/v1_0/requesttopay"
         res = self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
 
@@ -125,7 +125,7 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url+"/colection/v1_0/account/balance"
+        url = self.base_url+"/collection/v1_0/account/balance"
         res = self.request("GET", url, headers)
         return res.json()
 
@@ -136,7 +136,7 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url+"/colection/v1_0/requesttopay/"+transaction_id
+        url = self.base_url+"/collection/v1_0/requesttopay/"+transaction_id
         res = self.request("GET", url, headers)
         return res.json()
 
