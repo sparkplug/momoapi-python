@@ -76,6 +76,13 @@ setup(
 
     tests_require = [
     'pytest',
+    'tox',
+    'pytest-cov',
+    'pytest-pep8',
+    'pytest-cov',
+    'pytest-sugar',
+    'pytest-instafail',
+    'wltrace'
 ],
 
 
