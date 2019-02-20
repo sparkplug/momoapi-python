@@ -81,8 +81,7 @@ setup(
     'pytest-pep8',
     'pytest-cov',
     'pytest-sugar',
-    'pytest-instafail',
-    'wltrace'
+    'pytest-instafail'
 ],
 
 
