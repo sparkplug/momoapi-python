@@ -1,22 +1,66 @@
 language: python
-python:
-  - "2.5"
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev"  # 3.5 development branch
-  - "3.6"
-  - "3.6-dev"  # 3.6 development branch
-  - "3.7-dev"  # 3.7 development branch
-# command to install dependencies
+cache:
+  directories:
+  - "$HOME/.cache/pip"
+  - "$HOME/.pyenv"
+matrix:
+  include:
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '2.6'
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '2.7'
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '3.3'
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '3.4'
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '3.5'
+  - os: linux
+    dist: trusty
+    sudo: false
+    python: '3.6'
+  - os: linux
+    dist: xenial
+    sudo: required
+    services:
+      - docker
+    python: '3.7'
+    env: BUILD_SDIST=true
+  - os: linux
+    sudo: false
+    python: pypy
+  - os: linux
+    sudo: false
+    python: pypy3
+  - os: osx
+    language: objective-c
+    env: PYENV_VERSION=2.7.12
+  - os: osx
+    language: objective-c
+    env: PYENV_VERSION=3.5.5
+  - os: osx
+    language: objective-c
+    env: PYENV_VERSION=3.6.5
 install:
-  - pip install -r requirements.txt
-# command to run tests
+- "./.travis/install.sh"
 script:
-  - pytest
+- "./.travis/run.sh"
+
+deploy:
+  provider: pypi
+  user: mossplix
+  password:
+    secure: AjbgM0S84NnaPtkAI9JptI7lqtXU3HtcfNM8BLbSSxz/vUymPdU7vXCqwQM0UQWU4Ns5nC8kx6GOfXoikouOtQr7gLSlM7UQVwojsWGBUtVVi6D73ha2glhaaJ7Mf+9G3YMBYUHIUqtf7uVr9hKz5aADH0XIgRpHV4nNNamMduV4SvY4FZuvgQLaUrfwKtUY4t169vtHiReYWIOXEJHnA2PAsxNz99ZOVEvuxAX/Z4mFGkOuLtAvZnPxg3vinE8inQXcMNpLxwICFJM/sKAnMcICChHOErEIir4onOoodPVvVAvKfgb51wIM2q4YMyD8P3aTOILsWgk68EDJNO4w5T3R14eS9/ccRV7pW96lB/heaW92/vl5A59KJxuu6OEgk5gQaacFPv1IUccvc6U6vgHofGhjrsT1X8GI9ekl/M+gApRtL9ZYtT8lyRTIHBhayOKCITxFjivgUOcYZWiTFQCODSompgGdy4aoyIvDpmW2aztLcpr+modFWG/4GcJZxt14z7414LJvPvpyQj31KVEEo8jWdidJY/FNVXNCz8LS/3ri1Tz3p1Zof0sa4Zp3w6WpFxPeEXewyIS3b/R/Yv8w5n8f4byXtRGShvQe/i6sDy3oJAwiSyyjasYseE6WZpAajgk0dDODKZ0vLHkD1ZyHzkNOmqI7wo0pLdiyrKc=
 after_success:
     # call codecov from project root
     - if [[ "$RUN_COVERAGE" == 1 ]]; then cd ../ && codecov; fi
-    
