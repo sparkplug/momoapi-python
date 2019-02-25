@@ -63,9 +63,7 @@ deploy:
   on:
     branch: master
 after_success:
-  - .travis/semver.sh
-on:
-    branch: master
+  - test $TRAVIS_BRANCH = "master" && .travis/semver.sh
 
 env:
   global:
