@@ -74,20 +74,14 @@ setup(
 
     setup_requires=["pytest-runner",],
 
-    tests_require = [
-    'pytest',
-    'tox',
+
+    extras_require={'test': ['pytest', 'pytest-watch','tox',
     'pytest-cov',
     'pytest-pep8',
     'pytest-cov',
     'pytest-sugar',
     'pytest-instafail',
-    'pytest-bdd'
-],
-
-
-
-    extras_require={'test': ['pytest', 'pytest-watch']},
+    'pytest-bdd'],"dev":["semver"]},
     entry_points={
         'console_scripts': [
             'momoapi = momoapi.cli:main',
