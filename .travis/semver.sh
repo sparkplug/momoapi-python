@@ -12,7 +12,7 @@ if [ -n $SEMVER_RELEASE_LEVEL ]; then
     git clone https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
     SEMVER_NEW_TAG=$(/tmp/semver/src/semver bump $SEMVER_RELEASE_LEVEL $SEMVER_LAST_TAG)
     git tag $SEMVER_NEW_TAG &> /dev/null
-    git push origin --tags &> /dev/null
+    git push https://${GH_TOKEN}@github.com/sparkplug/momoapi-python.git --tags &> /dev/null
     echo $SEMVER_NEW_TAG
 else
     >&2 echo "No release level defined"
