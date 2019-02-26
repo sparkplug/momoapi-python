@@ -72,3 +72,13 @@ We can then use this `Transaction Reference` to get the status of the `Transacti
 ```
 
 Voila!
+
+
+
+   readme
+   installation
+   usage
+   reference/index
+   contributing
+   authors
+   changelog

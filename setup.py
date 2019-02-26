@@ -30,7 +30,7 @@ setup(
     description='Python wrapper for the MTN MoMo API.',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
-        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.md'))
     ),
     author='Sparkplug',
     author_email='mugisha@sparkpl.ug',
@@ -65,23 +65,25 @@ setup(
     ],
     keywords=[
         'MoMo API', 'MoMo API Python Wrapper', 'MoMo API Python',
+
+
+
     ],
     install_requires=[
-        'click',
-        'requests'
+        'click', 'requests'
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
     ],
 
-    setup_requires=["pytest-runner",],
+    setup_requires=["pytest-runner", ],
 
 
-    extras_require={'test': ['pytest', 'pytest-watch','tox',
-    'pytest-cov',
-    'pytest-pep8',
-    'pytest-cov',
-    'pytest-sugar',
-    'pytest-instafail',
-    'pytest-bdd'],"dev":["semver"]},
+    extras_require={'test': ['pytest', 'pytest-watch', 'tox',
+                             'pytest-cov',
+                             'pytest-pep8',
+                             'pytest-cov',
+                             'pytest-sugar',
+                             'pytest-instafail',
+                             'pytest-bdd'], "dev": ["semver"]},
     entry_points={
         'console_scripts': [
             'momoapi = momoapi.cli:main',
