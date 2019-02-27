@@ -1,45 +1,48 @@
 language: python
+branches:
+  only:
+    - master
 cache:
   directories:
-  - "$HOME/.cache/pip"
-  - "$HOME/.pyenv"
+    - "$HOME/.cache/pip"
+    - "$HOME/.pyenv"
 matrix:
   include:
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '2.6'
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '2.7'
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '3.3'
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '3.4'
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '3.5'
-  - os: linux
-    dist: trusty
-    sudo: false
-    python: '3.6'
-  - os: linux
-    dist: xenial
-    sudo: required
-    services:
-    - docker
-    python: '3.7'
-    env: BUILD_SDIST=true
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "2.6"
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "2.7"
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "3.3"
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "3.4"
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "3.5"
+    - os: linux
+      dist: trusty
+      sudo: false
+      python: "3.6"
+    - os: linux
+      dist: xenial
+      sudo: required
+      services:
+        - docker
+      python: "3.7"
+      env: BUILD_SDIST=true
 script:
-- python setup.py test
+  - python setup.py test
 install:
-- python setup.py install
+  - python setup.py install
 deploy:
   provider: pypi
   user: mossplix

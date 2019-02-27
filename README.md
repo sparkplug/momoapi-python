@@ -1,24 +1,34 @@
-## Installation
+# MTN Mobile Money API Client
 
-First, ensure that the you have a virtual environment enabled before you proceed. You can create one and activate as follows:
+MTN MoMo API Client for Python.
 
-Creation of virtualenv:
+[![Build Status](https://travis-ci.com/sparkplug/momoapi-python.svg?branch=master)](https://travis-ci.com/sparkplug/momoapi-node)
+[![Latest Version](https://img.shields.io/pypi/v/tox-travis.svg)](https://badge.fury.io/js/mtn-momo)
+[![Coverage Status](https://coveralls.io/repos/github/sparkplug/momoapi-python/badge.svg?branch=coverage)](https://coveralls.io/github/sparkplug/momoapi-python?branch=master)
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/momo-api-developers/)
 
-```bash
-$ virtualenv -p python3 <desired-path>
-```
 
-Activate the virtualenv:
+# Installing
 
-```bash
-$ source <desired-path>/bin/activate
-```
 
-Next, we install from source:
+To install the latest version of Momo-api using pip::
 
 ```bash
-$ python setup.py install
+ $ pip install momoapi
+
 ```
+
+Additional instructions for installing this software are in `the installation instructions <INSTALL.md>`_.
+
+
+# Unit Tests
+
+momo-api has a comprehensive test suite, which can be run by ``tox``::
+
+  $ tox -l            # to view all test environments
+  $ tox -e py27-cover # to run the tests for Python 2.7
+  $ tox -e py34-cover # to run the tests for Python 3.4
+
 
 ## Requirements
 
