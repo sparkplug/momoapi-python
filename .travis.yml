@@ -19,6 +19,7 @@ matrix:
       dist: trusty
       sudo: false
       python: "3.4"
+      env: TOXENV=py34-cover
     - os: linux
       dist: trusty
       sudo: false
