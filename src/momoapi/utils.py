@@ -1,3 +1,7 @@
+
+from phonenumbers import carrier
+import phonenumbers
+
 ERROR_CODES = [
     {
         "http_code": 409,
@@ -143,3 +147,27 @@ def requests_retry_session(
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     return session
+
+
+def validate_phone_number(number):
+    obj = phonenumbers.parse(number, "UG")
+    if (phonenumbers.is_valid_numbe(obj) == False):
+        raise Exception("Invalid Phone number %s" % number)
+    if (carrier.name_for_number(obj, "en") != "MTN"):
+        raise Exception("%s: Only MTN is supported at the moment" % number)
+    return "256" + obj.national_number
+
+
+def validate_number(number):
+    number_types = (int, float)
+    if sys.version_info < (3, 0, 0):
+        number_types += (long,)
+    if not type(number) in number_types:
+        raise Exception("%s: Must be a number" % number)
+    return number
+
+
+def validate_string(_string):
+    if not type(_string) == str:
+        raise Exception("%s: Must be a string" % _string)
+    return string

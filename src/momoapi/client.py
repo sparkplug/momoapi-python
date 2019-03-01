@@ -1,3 +1,9 @@
+"""
+Base implementation of the MTN API client
+
+@author: Moses Mugisha
+"""
+
 import requests
 import textwrap
 import json
@@ -107,7 +113,7 @@ class MomoApi(object):
                           auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
         return r
 
-    def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR", environment="sandbox"):
+    def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR", environment="sandbox", **kwargs):
         ref = str(uuid.uuid4())
         data = {"payer": {"partyIdType": "MSISDN", "partyId": mobile}, "payeeNote": note,
                 "payerMessage": message, "externalId": product_id, "currency": currency, "amount": amount}
@@ -133,7 +139,7 @@ class MomoApi(object):
         res = self.request("GET", url, headers)
         return res.json()
 
-    def getTransactionStatus(self, transaction_id, environment="sandbox"):
+    def getTransactionStatus(self, transaction_id, environment="sandbox", **kwargs):
 
         headers = {
             "X-Target-Environment": environment,
@@ -144,7 +150,7 @@ class MomoApi(object):
         res = self.request("GET", url, headers)
         return res.json()
 
-    def transfer(self, amount, mobile, note="", message="", currency="EUR", environment="sandbox"):
+    def transfer(self, amount, mobile, note="", message="", currency="EUR", environment="sandbox", **kwargs):
         external_ref = str(uuid.uuid4())
         data = {
             "amount": amount,
@@ -167,7 +173,7 @@ class MomoApi(object):
         return {"transaction_ref": external_ref}
 
     @classmethod
-    def generateToken(self, host, api_user, api_key, base_url, environment="sandbox"):
+    def generateToken(self, host, api_user, api_key, base_url, environment="sandbox", **kwargs):
         data = {"providerCallbackHost": host}
 
         headers = {
