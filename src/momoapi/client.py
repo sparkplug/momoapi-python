@@ -131,6 +131,7 @@ class MomoApi(object):
             currency="EUR",
             environment="sandbox",
             **kwargs):
+            # type: (String,String,String,String,String,String,String) -> json
         ref = str(uuid.uuid4())
         data = {
             "payer": {
