@@ -14,6 +14,9 @@ try:
 except ImportError:
     JSONDecodeError = ValueError
 
+from requests.packages.urllib3.util.retry import Retry
+from .utils import requests_retry_session
+
 
 class Response:
 
@@ -34,7 +37,7 @@ class MoMoAuth(AuthBase):
     def __call__(self, r):
         # modify and return the request
 
-        r.headers['Authorization'] = "Bearer "+to_native_string(self.token)
+        r.headers['Authorization'] = "Bearer " + to_native_string(self.token)
         return r
 
 
@@ -50,13 +53,14 @@ class MomoApi(object):
 
     def request(self, method, url, headers, post_data=None):
         self.authToken = self.getAuthToken().json()["access_token"]
-        request = Request(method,  url, data=json.dumps(post_data), headers=headers, auth=MoMoAuth("%s" % self.authToken))
+        request = Request(method, url, data=json.dumps(post_data),
+                          headers=headers, auth=MoMoAuth("%s" % self.authToken))
 
         prepped = self._session.prepare_request(request)
 
-        resp = self._session.send(prepped,
-                                  verify=False
-                                  )
+        resp = requests_retry_session(sesssion=self._session).send(prepped,
+                                                                   verify=False
+                                                                   )
         return self.interpret_response(resp)
 
     def interpret_response(self, resp):
@@ -99,11 +103,11 @@ class MomoApi(object):
 
             "Ocp-Apim-Subscription-Key": "%s" % self.auth_key
         }
-        r = requests.post(self.base_url+"/collection/token/",
+        r = requests.post(self.base_url + "/collection/token/",
                           auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
         return r
 
-    def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR",  environment="sandbox"):
+    def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR", environment="sandbox"):
         ref = str(uuid.uuid4())
         data = {"payer": {"partyIdType": "MSISDN", "partyId": mobile}, "payeeNote": note,
                 "payerMessage": message, "externalId": product_id, "currency": currency, "amount": amount}
@@ -115,7 +119,7 @@ class MomoApi(object):
 
 
         }
-        url = self.base_url+"/collection/v1_0/requesttopay"
+        url = self.base_url + "/collection/v1_0/requesttopay"
         res = self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
 
@@ -125,18 +129,18 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url+"/collection/v1_0/account/balance"
+        url = self.base_url + "/collection/v1_0/account/balance"
         res = self.request("GET", url, headers)
         return res.json()
 
-    def getTransactionStatus(self, transaction_id,  environment="sandbox"):
+    def getTransactionStatus(self, transaction_id, environment="sandbox"):
 
         headers = {
             "X-Target-Environment": environment,
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url+"/collection/v1_0/requesttopay/"+transaction_id
+        url = self.base_url + "/collection/v1_0/requesttopay/" + transaction_id
         res = self.request("GET", url, headers)
         return res.json()
 
@@ -158,7 +162,7 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url+"/v1_0/transfer"
+        url = self.base_url + "/v1_0/transfer"
         res = self.request("POST", url, headers, data)
         return {"transaction_ref": external_ref}
 
@@ -172,7 +176,7 @@ class MomoApi(object):
             "X-Target-Environment": environment,
         }
 
-        url = base_url+"/v1_0/apiuser/%s/apikey" % api_user
+        url = base_url + "/v1_0/apiuser/%s/apikey" % api_user
 
         res = requests.post(url, data=json.dumps({}), headers=headers)
         print(res)
