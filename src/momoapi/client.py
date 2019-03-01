@@ -123,7 +123,7 @@ class MomoApi(object):
 
     def requestToPay(
             self,
-            mobile: str,
+            mobile,
             amount,
             product_id,
             note="",

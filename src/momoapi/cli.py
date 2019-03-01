@@ -23,7 +23,7 @@ import click
 import requests
 
 
-def generate_token(host, key):
+def generateToken(host, key):
     data = {"providerCallbackHost": host}
     token = str(uuid.uuid4())
     headers = {
@@ -64,4 +64,4 @@ def generate_token(host, key):
     prompt="Ocp-Apim-Subscription-Key",
     help='Ocp-Apim-Subscription-Key')
 def main(provider, key):
-    click.echo(generate_token(provider, key))
+    click.echo(generateToken(provider, key))
