@@ -1,7 +1,4 @@
 language: python
-branches:
-  only:
-    - master
 cache:
   directories:
     - "$HOME/.cache/pip"
@@ -11,15 +8,13 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      python: "2.6"
-    - os: linux
-      dist: trusty
-      sudo: false
+      env: TOXENV=py27-cover
       python: "2.7"
     - os: linux
       dist: trusty
       sudo: false
       python: "3.3"
+      env: TOXENV=py33-cover
     - os: linux
       dist: trusty
       sudo: false
@@ -28,19 +23,20 @@ matrix:
       dist: trusty
       sudo: false
       python: "3.5"
+      env: TOXENV=py35-cover
     - os: linux
       dist: trusty
       sudo: false
       python: "3.6"
+      env: TOXENV=py36-cover
     - os: linux
       dist: xenial
       sudo: required
-      services:
-        - docker
       python: "3.7"
-      env: BUILD_SDIST=true
+      env: TOXENV=py37-cover
 script:
-  - python setup.py test
+  - pip install tox
+  - tox
 install:
   - python setup.py install
 deploy:

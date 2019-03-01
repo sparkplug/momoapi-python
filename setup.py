@@ -70,11 +70,13 @@ setup(
 
     ],
     install_requires=[
-        'click', 'requests'
+        'requests == 2.21.0',
+        'Click==7.0'
+
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
     ],
 
-    setup_requires=["pytest-runner", ],
+    setup_requires=["pytest-runner", "pytest-cov"],
 
 
     extras_require={'test': ['pytest', 'pytest-watch', 'tox',
@@ -82,6 +84,7 @@ setup(
                              'pytest-pep8',
                              'pytest-cov',
                              'pytest-sugar',
+                             'mock',
                              'pytest-instafail',
                              'pytest-bdd'], "dev": ["semver"]},
     entry_points={
