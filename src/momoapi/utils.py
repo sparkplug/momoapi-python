@@ -1,6 +1,9 @@
-
-from phonenumbers import carrier
 import phonenumbers
+from phonenumbers import carrier
+
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 ERROR_CODES = [
     {
@@ -151,23 +154,22 @@ def requests_retry_session(
 
 def validate_phone_number(number):
     obj = phonenumbers.parse(number, "UG")
-    if (phonenumbers.is_valid_numbe(obj) == False):
-        raise Exception("Invalid Phone number %s" % number)
+    if not phonenumbers.is_valid_numbe(obj):
+        raise Exception("Invalid Phone number {0}".format(number))
     if (carrier.name_for_number(obj, "en") != "MTN"):
-        raise Exception("%s: Only MTN is supported at the moment" % number)
+        raise Exception(
+            "{0}: Only MTN is supported at the moment".format(number))
     return "256" + obj.national_number
 
 
 def validate_number(number):
     number_types = (int, float)
-    if sys.version_info < (3, 0, 0):
-        number_types += (long,)
     if not type(number) in number_types:
-        raise Exception("%s: Must be a number" % number)
+        raise Exception("{0}: Must be a number".format(number))
     return number
 
 
 def validate_string(_string):
-    if not type(_string) == str:
-        raise Exception("%s: Must be a string" % _string)
-    return string
+    if not isinstance(_string, str):
+        raise Exception("{0}: Must be a string".format(_string))
+    return _string

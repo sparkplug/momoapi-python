@@ -8,23 +8,29 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: TOXENV=py27-cover
+      env: TOXENV=flake8
+      python: "3.7"
+
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: TOXENV=py27-cover,coveralls
       python: "2.7"
     - os: linux
       dist: trusty
       sudo: false
       python: "3.5"
-      env: TOXENV=py35-cover
+      env: TOXENV=py35-cover,coveralls
     - os: linux
       dist: trusty
       sudo: false
       python: "3.6"
-      env: TOXENV=py36-cover
+      env: TOXENV=py36-cover,coveralls
     - os: linux
       dist: xenial
       sudo: required
       python: "3.7"
-      env: TOXENV=py37-cover
+      env: TOXENV=py37-cover,coveralls
 script:
   - pip install tox
   - tox

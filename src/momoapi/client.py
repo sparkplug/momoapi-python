@@ -4,23 +4,22 @@ Base implementation of the MTN API client
 @author: Moses Mugisha
 """
 
-import requests
-import textwrap
+
 import json
 import uuid
-from .errors import APIError
-from requests import Request, Session
-from requests.auth import AuthBase
-import base64
-from requests.auth import HTTPBasicAuth
-from requests._internal_utils import to_native_string
-
 try:
     from json.decoder import JSONDecodeError
 except ImportError:
     JSONDecodeError = ValueError
 
-from requests.packages.urllib3.util.retry import Retry
+import requests
+from requests import Request, Session
+from requests._internal_utils import to_native_string
+from requests.auth import AuthBase
+from requests.auth import HTTPBasicAuth
+
+
+from .errors import APIError
 from .utils import requests_retry_session
 
 
@@ -49,7 +48,13 @@ class MoMoAuth(AuthBase):
 
 class MomoApi(object):
 
-    def __init__(self, auth_key, user_id, api_secret, base_url="https://ericssonbasicapi2.azure-api.net", ** kwargs):
+    def __init__(
+            self,
+            auth_key,
+            user_id,
+            api_secret,
+            base_url="https://ericssonbasicapi2.azure-api.net",
+            ** kwargs):
         super(MomoApi, self).__init__(**kwargs)
         self._session = Session()
         self.api_secret = api_secret
@@ -59,8 +64,12 @@ class MomoApi(object):
 
     def request(self, method, url, headers, post_data=None):
         self.authToken = self.getAuthToken().json()["access_token"]
-        request = Request(method, url, data=json.dumps(post_data),
-                          headers=headers, auth=MoMoAuth("%s" % self.authToken))
+        request = Request(
+            method,
+            url,
+            data=json.dumps(post_data),
+            headers=headers,
+            auth=MoMoAuth(self.authToken))
 
         prepped = self._session.prepare_request(request)
 
@@ -85,15 +94,11 @@ class MomoApi(object):
         return resp
 
     def handle_error_response(self, rbody, rcode, resp, rheaders):
-        try:
-            error_data = resp['error']
-        except (KeyError, TypeError):
-            raise APIError(
-                "Invalid response object from API: %r (HTTP response code "
-                "was %d)" % (rbody, rcode),
-                rbody, rcode, resp)
 
-        raise ""
+        raise APIError(
+            "Invalid response object from API: {0} (HTTP response code "
+            "was {1})".format(rbody, rcode),
+            rbody, rcode, resp)
 
     def request_headers(self, api_key, method):
         headers = {}
@@ -102,21 +107,40 @@ class MomoApi(object):
 
     def getAuthToken(self):
         data = json.dumps({})
-        auth = "%s:%s" % (self.user_id, self.api_secret)
-        bs64 = base64.b64encode(auth.encode())
         headers = {
             "Content-Type": "application/json",
-
-            "Ocp-Apim-Subscription-Key": "%s" % self.auth_key
+            "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        r = requests.post(self.base_url + "/collection/token/",
-                          auth=HTTPBasicAuth(self.user_id, self.api_secret), data=data, headers=headers)
-        return r
+        response = requests.post(
 
-    def requestToPay(self, mobile, amount, product_id, note="", message="", currency="EUR", environment="sandbox", **kwargs):
+            "{0}/collection/token/".format(self.base_url),
+            auth=HTTPBasicAuth(
+                self.user_id,
+                self.api_secret),
+            data=data,
+            headers=headers)
+        return response
+
+    def requestToPay(
+            self,
+            mobile: str,
+            amount,
+            product_id,
+            note="",
+            message="",
+            currency="EUR",
+            environment="sandbox",
+            **kwargs):
         ref = str(uuid.uuid4())
-        data = {"payer": {"partyIdType": "MSISDN", "partyId": mobile}, "payeeNote": note,
-                "payerMessage": message, "externalId": product_id, "currency": currency, "amount": amount}
+        data = {
+            "payer": {
+                "partyIdType": "MSISDN",
+                "partyId": mobile},
+            "payeeNote": note,
+            "payerMessage": message,
+            "externalId": product_id,
+            "currency": currency,
+            "amount": amount}
         headers = {
             "X-Target-Environment": environment,
             "Content-Type": "application/json",
@@ -125,8 +149,8 @@ class MomoApi(object):
 
 
         }
-        url = self.base_url + "/collection/v1_0/requesttopay"
-        res = self.request("POST", url, headers, data)
+        url = "{0}/collection/v1_0/requesttopay".format(self.base_url)
+        self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
 
     def getBalance(self, environment="sandbox"):
@@ -135,11 +159,15 @@ class MomoApi(object):
             "Content-Type": "application/json",
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
-        url = self.base_url + "/collection/v1_0/account/balance"
+        url = "{0}/collection/v1_0/account/balance".format(self.base_url)
         res = self.request("GET", url, headers)
         return res.json()
 
-    def getTransactionStatus(self, transaction_id, environment="sandbox", **kwargs):
+    def getTransactionStatus(
+            self,
+            transaction_id,
+            environment="sandbox",
+            **kwargs):
 
         headers = {
             "X-Target-Environment": environment,
@@ -150,7 +178,15 @@ class MomoApi(object):
         res = self.request("GET", url, headers)
         return res.json()
 
-    def transfer(self, amount, mobile, note="", message="", currency="EUR", environment="sandbox", **kwargs):
+    def transfer(
+            self,
+            amount,
+            mobile,
+            note="",
+            message="",
+            currency="EUR",
+            environment="sandbox",
+            **kwargs):
         external_ref = str(uuid.uuid4())
         data = {
             "amount": amount,
@@ -169,11 +205,18 @@ class MomoApi(object):
             "Ocp-Apim-Subscription-Key": self.auth_key
         }
         url = self.base_url + "/v1_0/transfer"
-        res = self.request("POST", url, headers, data)
+        self.request("POST", url, headers, data)
         return {"transaction_ref": external_ref}
 
     @classmethod
-    def generateToken(self, host, api_user, api_key, base_url, environment="sandbox", **kwargs):
+    def generateToken(
+            cls,
+            host,
+            api_user,
+            api_key,
+            base_url,
+            environment="sandbox",
+            **kwargs):
         data = {"providerCallbackHost": host}
 
         headers = {
@@ -182,9 +225,9 @@ class MomoApi(object):
             "X-Target-Environment": environment,
         }
 
-        url = base_url + "/v1_0/apiuser/%s/apikey" % api_user
+        url = base_url + "/v1_0/apiuser/{0}/apikey".format(api_user)
 
-        res = requests.post(url, data=json.dumps({}), headers=headers)
+        res = requests.post(url, data=json.dumps(data), headers=headers)
         print(res)
 
         return res.json()
