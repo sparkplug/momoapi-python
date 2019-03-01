@@ -9,7 +9,7 @@ matrix:
       dist: trusty
       sudo: false
       env: TOXENV=flake8,coveralls
-      python: "3.7"
+      python: "3.6"
 
     - os: linux
       dist: trusty
