@@ -20,7 +20,7 @@ from requests.auth import HTTPBasicAuth
 
 
 from .errors import APIError
-from .utils import requests_retry_session
+from .utils import requests_retry_session, validate_phone_number, validate_uuid
 
 
 class Response:
@@ -58,7 +58,7 @@ class MomoApi(object):
         super(MomoApi, self).__init__(**kwargs)
         self._session = Session()
         self.api_secret = api_secret
-        self.user_id = user_id
+        self.user_id = validate_uuid(user_id)
         self.auth_key = auth_key
         self.base_url = base_url
 
@@ -136,12 +136,12 @@ class MomoApi(object):
         data = {
             "payer": {
                 "partyIdType": "MSISDN",
-                "partyId": mobile},
+                "partyId": validate_phone_number(mobile)},
             "payeeNote": note,
             "payerMessage": message,
             "externalId": product_id,
             "currency": currency,
-            "amount": amount}
+            "amount": str(amount)}
         headers = {
             "X-Target-Environment": environment,
             "Content-Type": "application/json",
@@ -190,12 +190,12 @@ class MomoApi(object):
             **kwargs):
         external_ref = str(uuid.uuid4())
         data = {
-            "amount": amount,
+            "amount": str(amount),
             "currency": currency,
             "externalId": external_ref,
             "payee": {
                 "partyIdType": "MSISDN",
-                "partyId": mobile
+                "partyId": validate_phone_number(mobile)
             },
             "payerMessage": message,
             "payeeNote": note

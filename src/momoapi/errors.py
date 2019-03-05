@@ -70,3 +70,7 @@ class TransferError(MomoError):
 
 class GeneralError(MomoError):
     pass
+
+
+class ValidationError(Exception):
+    pass
