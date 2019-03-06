@@ -33,39 +33,23 @@ matrix:
     dist: xenial
     sudo: required
     services:
-      - docker
+    - docker
     python: '3.7'
     env: BUILD_SDIST=true
-  - os: linux
-    sudo: false
-    python: pypy
-  - os: linux
-    sudo: false
-    python: pypy3
-  - os: osx
-    language: objective-c
-    env: PYENV_VERSION=2.7.12
-  - os: osx
-    language: objective-c
-    env: PYENV_VERSION=3.5.5
-  - os: osx
-    language: objective-c
-    env: PYENV_VERSION=3.6.5
-
 script:
-  - python setup.py test
-# command to install dependencies
+- python setup.py test
 install:
-  - python setup.py install
-
+- python setup.py install
 deploy:
   provider: pypi
   user: mossplix
   password:
     secure: AjbgM0S84NnaPtkAI9JptI7lqtXU3HtcfNM8BLbSSxz/vUymPdU7vXCqwQM0UQWU4Ns5nC8kx6GOfXoikouOtQr7gLSlM7UQVwojsWGBUtVVi6D73ha2glhaaJ7Mf+9G3YMBYUHIUqtf7uVr9hKz5aADH0XIgRpHV4nNNamMduV4SvY4FZuvgQLaUrfwKtUY4t169vtHiReYWIOXEJHnA2PAsxNz99ZOVEvuxAX/Z4mFGkOuLtAvZnPxg3vinE8inQXcMNpLxwICFJM/sKAnMcICChHOErEIir4onOoodPVvVAvKfgb51wIM2q4YMyD8P3aTOILsWgk68EDJNO4w5T3R14eS9/ccRV7pW96lB/heaW92/vl5A59KJxuu6OEgk5gQaacFPv1IUccvc6U6vgHofGhjrsT1X8GI9ekl/M+gApRtL9ZYtT8lyRTIHBhayOKCITxFjivgUOcYZWiTFQCODSompgGdy4aoyIvDpmW2aztLcpr+modFWG/4GcJZxt14z7414LJvPvpyQj31KVEEo8jWdidJY/FNVXNCz8LS/3ri1Tz3p1Zof0sa4Zp3w6WpFxPeEXewyIS3b/R/Yv8w5n8f4byXtRGShvQe/i6sDy3oJAwiSyyjasYseE6WZpAajgk0dDODKZ0vLHkD1ZyHzkNOmqI7wo0pLdiyrKc=
   on:
-    branch: master
-
+    tags: true
 after_success:
-    # call codecov from project root
-    - if [[ "$RUN_COVERAGE" == 1 ]]; then cd ../ && codecov; fi
+  - test $TRAVIS_BRANCH = "master" && .travis/semver.sh
+
+env:
+  global:
+    secure: BfFLRnrlUwkU7FJui6XIrbN/nmxWkuDaGFrXLcqKSzWQmIwq8T/xIU2yje+wpjUx3mfErWXUgbf8EK/A83OwDgwDvZ4vlBojWA/aTKFUHtW7S7Ix1rTQbuxIzhEpBg2elIQzuKcH9hccGSzpcC6TqeuIWu/Soog7bofO6LT8SXqoRRPZnXgm07pKyJ/8wbUlJ34Ktoje5056zRsmEriFVf4/Qv6YciDzXtPbTRDCy+gXSAOFnr5y7d6Z8SQ3T5eki17X80Yn12nK0fymkTwbBi1F51dHkqSVYB/J6uBI5+K3c80gIw/sqhiHpk2WhfCB6ju/xAlHa9cSPKggJSPeX/v2Ujfk/7wDbH7mlBKsSisWKlQ/8oOd51aiXuHKP4yrj85URhxUNHoehYMg2JyQILTICFcSf4/AlbuEWFYtH34TBS+fF56kMxjHAdDCEX/i3VfAfAER3xsFTCTmQgvyZprPkekQOj5Cy1U+V5oPXRs94h0DqYbsMip1E1cbvevmjCzP3B2UZ/00mlp21a2OtNioxXaptgLsZjNS2kahc1yhDu6L3k2QZwxc58KdgL2vP+t7aQIcGO7gYimmn6GvXiDOjojXAVp0FPIHLnjNVHyqbQa6cma14sANKRZfyfuaGg3z763I7sdc5Su1iufZoD/+QRR4zrtyv3itfEvUBPo=
