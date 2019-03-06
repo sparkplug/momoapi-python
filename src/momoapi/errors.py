@@ -1,6 +1,4 @@
 
-from .utils import ERROR_CODES
-
 
 class MomoError(Exception):
     def __init__(self, message=None, http_body=None, http_status=None,
@@ -35,7 +33,7 @@ class MomoError(Exception):
         return self._message
 
     def __repr__(self):
-        return '%s(message=%r, http_status=%r, request_id=%r)' % (
+        return '{0}(message={1}, http_status={2}, request_id={3})'.format(
             self.__class__.__name__,
             self._message,
             self.http_status,
@@ -71,4 +69,8 @@ class TransferError(MomoError):
 
 
 class GeneralError(MomoError):
+    pass
+
+
+class ValidationError(Exception):
     pass

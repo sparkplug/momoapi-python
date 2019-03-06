@@ -1,3 +1,12 @@
+from uuid import UUID
+import phonenumbers
+from phonenumbers import carrier
+
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+from .errors import ValidationError
+
 ERROR_CODES = [
     {
         "http_code": 409,
@@ -143,3 +152,34 @@ def requests_retry_session(
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     return session
+
+
+def validate_phone_number(number):
+    obj = phonenumbers.parse(number, "UG")
+    if not phonenumbers.is_valid_number(obj):
+        raise ValidationError("Invalid Phone number {0}".format(number))
+    if (carrier.name_for_number(obj, "en") != "MTN"):
+        raise ValidationError(
+            "{0}: Only MTN is supported at the moment".format(number))
+    return "256{0}".format(obj.national_number)
+
+
+def validate_number(number):
+    number_types = (int, float)
+    if not type(number) in number_types:
+        raise ValidationError("{0}: Must be a number".format(number))
+    return number
+
+
+def validate_string(_string):
+    if not isinstance(_string, str):
+        raise ValidationError("{0}: Must be a string".format(_string))
+    return _string
+
+
+def validate_uuid(_string):
+    try:
+        _val = UUID(_string, version=4)
+    except ValueError:
+        raise ValidationError("{0}: Must be a valid uuid4 string".format(_string))
+    return _string

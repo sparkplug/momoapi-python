@@ -6,6 +6,7 @@ MTN MoMo API Client for Python.
 [![Latest Version](https://img.shields.io/pypi/v/tox-travis.svg)](https://badge.fury.io/js/mtn-momo)
 [![Coverage Status](https://coveralls.io/repos/github/sparkplug/momoapi-python/badge.svg?branch=coverage)](https://coveralls.io/github/sparkplug/momoapi-python?branch=master)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/momo-api-developers/)
+[![Coverage Status](https://coveralls.io/repos/github/sparkplug/momoapi-python/badge.svg?branch=validations)](https://coveralls.io/github/sparkplug/momoapi-python?branch=validations)
 
 
 # Installing

@@ -8,6 +8,12 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
+      env: TOXENV=flake8,coveralls
+      python: "3.6"
+
+    - os: linux
+      dist: trusty
+      sudo: false
       env: TOXENV=py27-cover
       python: "2.7"
     - os: linux

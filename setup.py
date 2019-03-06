@@ -71,7 +71,8 @@ setup(
     ],
     install_requires=[
         'requests == 2.21.0',
-        'Click==7.0'
+        'Click==7.0',
+        'phonenumbers'
 
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
     ],
