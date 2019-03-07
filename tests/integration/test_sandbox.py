@@ -8,7 +8,7 @@ pytest.globalDict = {}
 
 
 @scenario('features/sandbox.feature', 'Adding new account')
-def test_sanbox_provisioning():
+def test_sandbox_provisioning():
     pass
 
 

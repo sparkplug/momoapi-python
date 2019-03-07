@@ -139,6 +139,7 @@ def requests_retry_session(
     backoff_factor=0.3,
     status_forcelist=(502, 504),
     session=None,
+    **kwargs
 ):
     session = session or requests.Session()
     retry = Retry(
@@ -179,7 +180,8 @@ def validate_string(_string):
 
 def validate_uuid(_string):
     try:
-        _val = UUID(_string, version=4)
+        UUID(_string, version=4)
     except ValueError:
-        raise ValidationError("{0}: Must be a valid uuid4 string".format(_string))
+        raise ValidationError(
+            "{0}: Must be a valid uuid4 string".format(_string))
     return _string
