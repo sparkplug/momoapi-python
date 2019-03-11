@@ -3,8 +3,6 @@ Base implementation of the MTN API client
 
 @author: Moses Mugisha
 """
-
-
 import json
 try:
     from json.decoder import JSONDecodeError
@@ -59,16 +57,16 @@ class ClientInterface():
 
 class Client(ClientInterface):
     def getAuthToken(self):
-        return super().getAuthToken()
+        return super(Client, self).getAuthToken()
 
     def getBalance(self):
-        return super().getBalance()
+        return super(Client, self).getBalance()
 
     def getTransactionStatus(self):
-        return super().getTransactionStatus()
+        return super(Client, self).getTransactionStatus()
 
 
-class MomoApi(ClientInterface):
+class MomoApi(ClientInterface, object):
 
     def __init__(
             self,

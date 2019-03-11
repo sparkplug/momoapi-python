@@ -3,17 +3,18 @@ import uuid
 from .utils import validate_phone_number
 
 
-class Remittance(MomoApi):
+class Remittance(MomoApi, object):
     def getAuthToken(self):
         """Generate access token which can then be use to authorize and authenticate towards the other end-points of the API"""
 
         url = "/remittance/token/"
-        response = super().getAuthToken("REMITTANCE", url, super().config.remittencesKey)
+        response = super(Remittance, self).getAuthToken(
+            "REMITTANCE", url, super(Remittance, self).config.remittencesKey)
         return response
 
     def getBalance(self):
         url = "/remittance/v1_0/account/balance"
-        return super().getBalance(url, super().config.remittencesKey)
+        return super(Remittance, self).getBalance(url, super(Remittance, self).config.remittencesKey)
 
     def getTransactionStatus(
             self,
@@ -24,8 +25,8 @@ class Remittance(MomoApi):
         """
         url = "/remittance/v1_0/transfer/"
 
-        return super().getTransactionStatus(
-            transaction_id, url, super().config.remittencesKey)
+        return super(Remittance, self).getTransactionStatus(
+            transaction_id, url, super(Remittance, self).config.remittencesKey)
 
     def transfer(
             self,
@@ -56,17 +57,17 @@ class Remittance(MomoApi):
         }
 
         headers = {
-            "X-Target-Environment": super().config.environment,
+            "X-Target-Environment": super(Remittance, self).config.environment,
             "Content-Type": "application/json",
             "X-Reference-Id": ref,
-            "Ocp-Apim-Subscription-Key": super().config.remittencesKey
+            "Ocp-Apim-Subscription-Key": super(Remittance, self).config.remittencesKey
 
         }
 
         if kwargs.get("callback_url"):
             headers["X-Callback-Url"] = kwargs.get("callback_url")
 
-        url = "{0}/remittance/v1_0/transfer".format(super().config.baseUrl)
+        url = "{0}/remittance/v1_0/transfer".format(super(Remittance, self).config.baseUrl)
         self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
 
@@ -80,9 +81,9 @@ class Remittance(MomoApi):
         headers = {
             "X-Target-Environment": self.config.environment,
             "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": super().config.remittencesKey
+            "Ocp-Apim-Subscription-Key": super(Remittance, self).config.remittencesKey
         }
         url = "{0}/remittance/v1_0/accountholder/MSISDN/{1}/active".format(
-            super().config.baseUrl, mobile)
+            super(Remittance, self).config.baseUrl, mobile)
         res = self.request("GET", url, headers)
         return res.json()
