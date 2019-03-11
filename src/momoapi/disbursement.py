@@ -3,21 +3,21 @@ import uuid
 from .utils import validate_phone_number
 
 
-class Disbursement(MomoApi):
+class Disbursement(MomoApi, object):
 
     def getAuthToken(self):
         """
            Create an access token which can then be used to authorize and authenticate towards the other end-points of the API.
         """
         url = "/disbursement/token/"
-        response = super().getAuthToken(
-            "DISBURSEMENT", url, super().config.disbursementsKey)
+        response = super(Disbursement, self).getAuthToken(
+            "DISBURSEMENT", url, super(Disbursement, self).config.disbursementsKey)
         return response
 
     def getBalance(self):
         url = "/disbursement/v1_0/account/balance"
 
-        return super().getBalance(url, super().config.disbursementsKey)
+        return super(Disbursement, self).getBalance(url, super(Disbursement, self).config.disbursementsKey)
 
     def getTransactionStatus(
             self,
@@ -25,8 +25,8 @@ class Disbursement(MomoApi):
             **kwargs):
         url = "/disbursement/v1_0/transfer/"
 
-        return super().getTransactionStatus(
-            transaction_id, url, super().config.disbursementsKey)
+        return super(Disbursement, self).getTransactionStatus(
+            transaction_id, url, super(Disbursement, self).config.disbursementsKey)
 
     def transfer(
             self,
@@ -50,14 +50,14 @@ class Disbursement(MomoApi):
             "payeeNote": payee_note
         }
         headers = {
-            "X-Target-Environment": super().config.environment,
+            "X-Target-Environment": super(Disbursement, self).config.environment,
             "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": super().config.disbursementsKey,
+            "Ocp-Apim-Subscription-Key": super(Disbursement, self).config.disbursementsKey,
             "X-Reference-Id": ref,
         }
         if kwargs.get("callback_url"):
             headers["X-Callback-Url"] = kwargs.get("callback_url")
-        url = super().config.baseUrl + "/disbursement/v1_0/transfer"
+        url = super(Disbursement, self).config.baseUrl + "/disbursement/v1_0/transfer"
         print(url)
         self.request("POST", url, headers, data)
         return {"transaction_ref": ref}

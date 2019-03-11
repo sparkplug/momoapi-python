@@ -4,20 +4,21 @@ from .client import MomoApi
 from .utils import validate_phone_number
 
 
-class Collection(MomoApi):
+class Collection(MomoApi, object):
     def getAuthToken(self):
         """
              Create an  access token which can then be used
         to authorize and authenticate towards the other end-points of the API
         """
         url = "/collection/token/"
-        response = super().getAuthToken("COLLECTION", url, super().config.collectionsKey)
+        response = super(Collection, self).getAuthToken(
+            "COLLECTION", url, super(Collection, self).config.collectionsKey)
         return response
 
     def getBalance(self):
         url = "/collection/v1_0/account/balance"
 
-        return super().getBalance(url, super().config.collectionsKey)
+        return super(Collection, self).getBalance(url, super(Collection, self).config.collectionsKey)
 
     def getTransactionStatus(
             self,
@@ -25,8 +26,8 @@ class Collection(MomoApi):
             **kwargs):
         url = "/collection/v1_0/requesttopay/"
 
-        return super().getTransactionStatus(
-            transaction_id, url, super().config.collectionsKey)
+        return super(Collection, self).getTransactionStatus(
+            transaction_id, url, super(Collection, self).config.collectionsKey)
 
     def requestToPay(
             self,
@@ -49,15 +50,15 @@ class Collection(MomoApi):
             "currency": currency,
             "amount": str(amount)}
         headers = {
-            "X-Target-Environment": super().config.environment,
+            "X-Target-Environment": super(Collection, self).config.environment,
             "Content-Type": "application/json",
             "X-Reference-Id": ref,
-            "Ocp-Apim-Subscription-Key": super().config.collectionsKey
+            "Ocp-Apim-Subscription-Key": super(Collection, self).config.collectionsKey
 
 
         }
         if kwargs.get("callback_url"):
             headers["X-Callback-Url"] = kwargs.get("callback_url")
-        url = "{0}/collection/v1_0/requesttopay".format(super().config.baseUrl)
+        url = "{0}/collection/v1_0/requesttopay".format(super(Collection, self).config.baseUrl)
         self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
