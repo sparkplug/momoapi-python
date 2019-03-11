@@ -3,10 +3,7 @@ Base implementation of the MTN API client
 
 @author: Moses Mugisha
 """
-
-
 import json
-import uuid
 try:
     from json.decoder import JSONDecodeError
 except ImportError:
@@ -19,8 +16,9 @@ from requests.auth import AuthBase
 from requests.auth import HTTPBasicAuth
 
 
+from .config import MomoConfig
 from .errors import APIError
-from .utils import requests_retry_session, validate_phone_number, validate_uuid
+from .utils import requests_retry_session
 
 
 class Response:
@@ -46,21 +44,41 @@ class MoMoAuth(AuthBase):
         return r
 
 
-class MomoApi(object):
+class ClientInterface():
+    def getAuthToken(self):
+        raise NotImplementedError
+
+    def getBalance(self):
+        raise NotImplementedError
+
+    def getTransactionStatus(self):
+        raise NotImplementedError
+
+
+class Client(ClientInterface):
+    def getAuthToken(self):
+        return super(Client, self).getAuthToken()
+
+    def getBalance(self):
+        return super(Client, self).getBalance()
+
+    def getTransactionStatus(self):
+        return super(Client, self).getTransactionStatus()
+
+
+class MomoApi(ClientInterface, object):
 
     def __init__(
             self,
-            auth_key,
-            user_id,
-            api_secret,
-            base_url="https://ericssonbasicapi2.azure-api.net",
+            config,
             ** kwargs):
         super(MomoApi, self).__init__(**kwargs)
         self._session = Session()
-        self.api_secret = api_secret
-        self.user_id = validate_uuid(user_id)
-        self.auth_key = auth_key
-        self.base_url = base_url
+        self._config = MomoConfig(config)
+
+    @property
+    def config(self):
+        return self._config
 
     def request(self, method, url, headers, post_data=None):
         self.authToken = self.getAuthToken().json()["access_token"]
@@ -81,6 +99,7 @@ class MomoApi(object):
     def interpret_response(self, resp):
         rcode = resp.status_code
         rheaders = resp.headers
+        print(resp)
 
         try:
             rbody = resp.json()
@@ -105,109 +124,48 @@ class MomoApi(object):
 
         return headers
 
-    def getAuthToken(self):
+    def getAuthToken(self, product, url, subscription_key):
         data = json.dumps({})
         headers = {
             "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": self.auth_key
+            "Ocp-Apim-Subscription-Key": subscription_key
         }
         response = requests.post(
 
-            "{0}/collection/token/".format(self.base_url),
+            "{0}{1}".format(self.config.baseUrl, url),
             auth=HTTPBasicAuth(
-                self.user_id,
-                self.api_secret),
+                self.config.userId(product),
+                self.config.APISecret(product)),
             data=data,
             headers=headers)
         return response
 
-    def requestToPay(
-            self,
-            mobile,
-            amount,
-            product_id,
-            note="",
-            message="",
-            currency="EUR",
-            environment="sandbox",
-            **kwargs):
-            # type: (String,String,String,String,String,String,String) -> json
-        ref = str(uuid.uuid4())
-        data = {
-            "payer": {
-                "partyIdType": "MSISDN",
-                "partyId": validate_phone_number(mobile)},
-            "payeeNote": note,
-            "payerMessage": message,
-            "externalId": product_id,
-            "currency": currency,
-            "amount": str(amount)}
+    def getBalance(self, url, subscription_key):
         headers = {
-            "X-Target-Environment": environment,
+            "X-Target-Environment": self.config.environment,
             "Content-Type": "application/json",
-            "X-Reference-Id": ref,
-            "Ocp-Apim-Subscription-Key": self.auth_key
-
-
+            "Ocp-Apim-Subscription-Key": subscription_key
         }
-        url = "{0}/collection/v1_0/requesttopay".format(self.base_url)
-        self.request("POST", url, headers, data)
-        return {"transaction_ref": ref}
-
-    def getBalance(self, environment="sandbox"):
-        headers = {
-            "X-Target-Environment": environment,
-            "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": self.auth_key
-        }
-        url = "{0}/collection/v1_0/account/balance".format(self.base_url)
+        url = "{0}{1}".format(self.config.baseUrl, url)
         res = self.request("GET", url, headers)
         return res.json()
 
     def getTransactionStatus(
             self,
             transaction_id,
-            environment="sandbox",
-            **kwargs):
+            url,
+            subscription_key,
+            ** kwargs):
 
         headers = {
-            "X-Target-Environment": environment,
+            "X-Target-Environment": self.config.environment,
             "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": self.auth_key
+            "Ocp-Apim-Subscription-Key": subscription_key
         }
-        url = self.base_url + "/collection/v1_0/requesttopay/" + transaction_id
-        res = self.request("GET", url, headers)
+        _url = self.config.baseUrl + url + transaction_id
+        print(_url)
+        res = self.request("GET", _url, headers)
         return res.json()
-
-    def transfer(
-            self,
-            amount,
-            mobile,
-            note="",
-            message="",
-            currency="EUR",
-            environment="sandbox",
-            **kwargs):
-        external_ref = str(uuid.uuid4())
-        data = {
-            "amount": str(amount),
-            "currency": currency,
-            "externalId": external_ref,
-            "payee": {
-                "partyIdType": "MSISDN",
-                "partyId": validate_phone_number(mobile)
-            },
-            "payerMessage": message,
-            "payeeNote": note
-        }
-        headers = {
-            "X-Target-Environment": environment,
-            "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": self.auth_key
-        }
-        url = self.base_url + "/v1_0/transfer"
-        self.request("POST", url, headers, data)
-        return {"transaction_ref": external_ref}
 
     @classmethod
     def generateToken(
@@ -229,7 +187,6 @@ class MomoApi(object):
         url = base_url + "/v1_0/apiuser/{0}/apikey".format(api_user)
 
         res = requests.post(url, data=json.dumps(data), headers=headers)
-        print(res)
 
         return res.json()
 

@@ -48,18 +48,18 @@ def mocked_requests_post(*args, **kwargs):
 
 
 def mocked_requests_session(*args, **kwargs):
-    if '/collection/token/' in args[1]:
+    if '/token/' in args[1]:
         return MockResponse({"access_token": "token"}, 200)
-    elif '/account/balance' in args[1]:
+    elif '/balance' in args[1]:
         return MockResponse({
             "availableBalance": "500",
             "currency": "UGX"
         }, 200)
     elif "/requesttopay" in args[1] and args[0] == 'POST':
         return MockResponse({}, 200)
-    elif "transfer" in args[1]:
+    elif "transfer" in args[1] and args[0] == 'POST':
         return MockResponse({}, 200)
-    elif "/requesttopay" in args[1] and args[0] == 'GET':
+    elif ("/requesttopay" in args[1] or "/transfer" in args[1]) and args[0] == 'GET':
         return MockResponse({
             "amount": 100,
             "currency": "UGX",
@@ -71,3 +71,5 @@ def mocked_requests_session(*args, **kwargs):
             },
             "status": "SUCCESSFUL"
         }, 200)
+    else:
+        return MockResponse({}, 200)
