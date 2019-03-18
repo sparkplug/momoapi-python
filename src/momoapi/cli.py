@@ -19,7 +19,6 @@ import time
 import uuid
 
 import click
-
 import requests
 
 
