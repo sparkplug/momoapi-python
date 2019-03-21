@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='momoapi',
-    version='0.1.0',
+    version='1.0.1',
     license='MIT license',
     description='Python wrapper for the MTN MoMo API.',
     long_description='%s\n%s' % (
