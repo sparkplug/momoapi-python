@@ -10,7 +10,6 @@ matrix:
       sudo: false
       env: TOXENV=flake8,coveralls
       python: "3.6"
-
     - os: linux
       dist: trusty
       sudo: false
