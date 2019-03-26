@@ -3,7 +3,7 @@ import re
 import os
 import pytest
 from click.testing import CliRunner
-from momoapi.collection import Collection
+from mtnmomo.collection import Collection
 
 
 pytest.globalDict = {}

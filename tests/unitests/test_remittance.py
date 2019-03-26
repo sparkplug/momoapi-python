@@ -1,7 +1,5 @@
 import unittest
 import pytest
-from momoapi.client import MomoApi
-from momoapi.remittance import Remittance
 import types
 try:
     from unittest import mock
@@ -9,8 +7,11 @@ except ImportError:
     import mock
 from requests import Request, Session
 
+from mtnmomo.client import MomoApi
+from mtnmomo.remittance import Remittance
+from mtnmomo.errors import ValidationError
+
 from .utils import mocked_requests_get, mocked_requests_post, mocked_requests_session
-from momoapi.errors import ValidationError
 
 
 class TestRemittences(unittest.TestCase):
