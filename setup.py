@@ -24,8 +24,8 @@ def read(*names, **kwargs):
 
 
 setup(
-    name='momoapi',
-    version='1.0.1',
+    name='mtnmomo',
+    version='2.0.0',
     license='MIT license',
     description='Python wrapper for the MTN MoMo API.',
     long_description='%s\n%s' % (
@@ -91,7 +91,7 @@ setup(
                              'pytest-bdd'], "dev": ["semver"]},
     entry_points={
         'console_scripts': [
-            'momoapi = momoapi.cli:main',
+            'mtnmomo = mtnmomo.cli:main',
         ]
     },
 )

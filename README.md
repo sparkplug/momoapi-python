@@ -4,7 +4,7 @@ MTN MoMo API Client for Python.
 
 [![Build Status](https://travis-ci.com/sparkplug/momoapi-python.svg?branch=master)](https://travis-ci.com/sparkplug/momoapi-node)
 [![Latest Version](https://img.shields.io/pypi/v/tox-travis.svg)](https://badge.fury.io/js/mtn-momo)
-[![Coverage Status](https://coveralls.io/repos/github/sparkplug/momoapi-python/badge.svg?branch=validations)](https://coveralls.io/github/sparkplug/momoapi-python?branch=validations)
+[![Coverage Status](https://coveralls.io/repos/github/sparkplug/momoapi-python/badge.svg?branch=master)](https://coveralls.io/github/sparkplug/momoapi-python?branch=master)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/momo-api-developers/)
 
 
@@ -13,7 +13,7 @@ MTN MoMo API Client for Python.
 Add the latest version of the library to your project using pip:
 
 ```bash
- $ pip install momoapi
+ $ pip install mtnmomo
 ```
 
 This library supports Python 2.7+ or Python 3.4+ (PyPy supported)
@@ -26,7 +26,7 @@ Next, we need to get the `User ID` and `User Secret` and to do this we shall nee
 
 ```bash
 ## within the project, on the command line. In this example, our domain is akabbo.ug
-$ momoapi
+$ mtnmomo
 $ providerCallBackHost: https://akabbo.ug
 $ Ocp-Apim-Subscription-Key: f83xx8d8xx6749f19a26e2265aeadbcdeg
 ```
@@ -75,14 +75,14 @@ You will only need to configure the variables for the product(s) you will be usi
 The collections client can be created with the following paramaters. Note that the `COLLECTION_USER_ID` and `COLLECTION_API_SECRET` for production are provided on the MTN OVA dashboard;
 
 * `COLLECTION_PRIMARY_KEY`: Primary Key for the `Collection` product on the developer portal.
-* `COLLECTION_USER_ID`: For sandbox, use the one generated with the `momoapi` command.
-* `COLLECTION_API_SECRET`: For sandbox, use the one generated with the `momoapi` command.
+* `COLLECTION_USER_ID`: For sandbox, use the one generated with the `mtnmomo` command.
+* `COLLECTION_API_SECRET`: For sandbox, use the one generated with the `mtnmomo` command.
 
 You can create a collection client with the following:
 
 ```python
 import os
-from momoapi.collection import Collection
+from mtnmomo.collection import Collection
 
 client = Collection({
         "COLLECTION_USER_ID": os.environ.get("COLLECTION_USER_ID"),
@@ -105,7 +105,7 @@ client = Collection({
 
 ```python
 import os
-from momoapi.collection import Collection
+from mtnmomo.collection import Collection
 
 client = Collection({
     "COLLECTION_USER_ID": os.environ.get("COLLECTION_USER_ID"),
@@ -122,14 +122,14 @@ client.requestToPay(
 The Disbursements client can be created with the following paramaters. Note that the `DISBURSEMENT_USER_ID` and `DISBURSEMENT_API_SECRET` for production are provided on the MTN OVA dashboard;
 
 * `DISBURSEMENT_PRIMARY_KEY`: Primary Key for the `Disbursement` product on the developer portal.
-* `DISBURSEMENT_USER_ID`: For sandbox, use the one generated with the `momoapi` command.
-* `DISBURSEMENT_API_SECRET`: For sandbox, use the one generated with the `momoapi` command.
+* `DISBURSEMENT_USER_ID`: For sandbox, use the one generated with the `mtnmomo` command.
+* `DISBURSEMENT_API_SECRET`: For sandbox, use the one generated with the `mtnmomo` command.
 
 You can create a disbursements client with the following
 
 ```python
 import os
-from momoapi.collection import Disbursement
+from mtnmomo.collection import Disbursement
 
 client = Disbursement({
     "DISBURSEMENT_USER_ID": os.environ.get("DISBURSEMENT_USER_ID"),
@@ -152,7 +152,7 @@ client = Disbursement({
 
 ```python
 import os
-from momoapi.collection import Disbursement
+from mtnmomo.collection import Disbursement
 
 client = Disbursement({
     "DISBURSEMENT_USER_ID": os.environ.get("DISBURSEMENT_USER_ID"),

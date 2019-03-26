@@ -2,7 +2,7 @@ from pytest_bdd import scenario, given, when, then, parsers
 import re
 import pytest
 from click.testing import CliRunner
-from momoapi.cli import generateToken
+from mtnmomo.cli import generateToken
 
 pytest.globalDict = {}
 
@@ -21,7 +21,7 @@ def provisioning_user(domain, api_key):
     return
 
 
-@when('I run the command "momoapi"')
+@when('I run the command "mtnmomo"')
 def run_command():
     return
 
