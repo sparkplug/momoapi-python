@@ -32,6 +32,7 @@ setup(
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.md'))
     ),
+    long_description_content_type='text/markdown',
     author='Sparkplug',
     author_email='mugisha@sparkpl.ug',
     url='https://github.com/sparkplug/momoapi-python',
