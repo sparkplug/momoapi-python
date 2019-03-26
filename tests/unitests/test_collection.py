@@ -1,16 +1,17 @@
 import unittest
 import pytest
-from momoapi.client import MomoApi
-from momoapi.collection import Collection
 import types
 try:
     from unittest import mock
 except ImportError:
     import mock
+
 from requests import Request, Session
 
 from .utils import mocked_requests_get, mocked_requests_post, mocked_requests_session
-from momoapi.errors import ValidationError
+from mtnmomo.errors import ValidationError
+from mtnmomo.client import MomoApi
+from mtnmomo.collection import Collection
 
 
 class TestCollections(unittest.TestCase):

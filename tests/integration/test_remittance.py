@@ -3,8 +3,9 @@ import re
 import os
 import pytest
 from click.testing import CliRunner
-from momoapi.cli import generateToken
-from momoapi.remittance import Remittance
+
+from mtnmomo.cli import generateToken
+from mtnmomo.remittance import Remittance
 
 pytest.globalDict = {}
 

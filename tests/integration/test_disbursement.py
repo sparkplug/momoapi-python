@@ -1,10 +1,10 @@
-from momoapi.disbursement import Disbursement
 from pytest_bdd import scenario, given, when, then, parsers
 import re
 import os
 import pytest
 from click.testing import CliRunner
-from momoapi.cli import generateToken
+from mtnmomo.cli import generateToken
+from mtnmomo.disbursement import Disbursement
 
 pytest.globalDict = {}
 
