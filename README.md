@@ -22,7 +22,7 @@ This library supports Python 2.7+ or Python 3.4+ (PyPy supported)
 
 ## Creating a sandbox environment API user 
 
-Next, we need to get the `User ID` and `User Secret` and to do this we shall need to use the Primary Key for the Product to which we are subscribed, as well as specify a host. The library ships with a commandline application that helps to create sandbox credentials. It assumes you have created an account on `https://momodeveloper.mtn.com` and have your `Ocp-Apim-Subscription-Key`. 
+Next, we need to get the `User ID` and `User Secret` and to do this we shall need to use the Primary Key for the Product to which we are subscribed, as well as specify a host. The library ships with a commandline application that helps to create sandbox credentials. It assumes you have created an account on [MoMo Developer Portal](https://momodeveloper.mtn.com) and have your `Ocp-Apim-Subscription-Key`. 
 
 ```bash
 ## within the project, on the command line. In this example, our domain is akabbo.ug
