@@ -7,7 +7,7 @@ little bit helps, and credit will always be given.
 Bug reports
 ===========
 
-When `reporting a bug <https://github.com/mossplix/python-momoapi/issues>`_ please include:
+To report a bug, Open an issue in [ python-momoapi issues](https://github.com/mossplix/python-momoapi/issues) and please include:
 
     * Your operating system name and version.
     * Any details about your local setup that might be helpful in troubleshooting.
@@ -36,15 +36,14 @@ Development
 
 To set up `python-momoapi` for local development:
 
-1. Fork [python-momoapi](https://github.com/mossplix/python-momoapi)
-   (look for the "Fork" button).
-2. Clone your fork locally.
-   Example
+1. Fork [python-momoapi](https://github.com/mossplix/python-momoapi) (look for the "Fork" button).
+
+2. Clone your fork locally. Example:
 ```bash
   $ git clone git@github.com:your_name_here/python-momoapi.git
 ```
 
-3. Create a branch for local development::
+3. Create a branch for local development:
 
 ```bash
   $ git checkout -b name-of-your-bugfix-or-feature
@@ -52,13 +51,13 @@ To set up `python-momoapi` for local development:
 
   You can now make your changes locally.
 
-4. When you're done making changes, run all the checks, doc builder and spell checker with `tox`, [Learn about tox](http://tox.readthedocs.io/en/latest/install.html) ::
+4. When you're done making changes, run all the checks, doc builder and spell checker with `tox`, [Learn about tox](http://tox.readthedocs.io/en/latest/install.html) :
 
 ```bash
   $ tox
 ```
 
-5. Commit your changes and push your branch to GitHub::
+5. Commit your changes and push your branch to GitHub:
 ```bash
   $ git add .
   $ git commit -m "A detailed description of your changes."
