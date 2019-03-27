@@ -36,7 +36,7 @@ Development
 
 To set up `python-momoapi` for local development:
 
-1. Fork [python-momoapi](https://github.com/mossplix/python-momoapi) (look for the "Fork" button).
+1. Fork [python-momoapi](https://github.com/mossplix/python-momoapi) (look for the "Fork" button). Forking will create a copy of this repo on your own github account.
 
 2. Clone your fork locally. Example:
 ```bash
