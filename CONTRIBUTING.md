@@ -79,8 +79,7 @@ For merging, you should:
 3. Add a note to ``CHANGELOG.rst`` about the changes.
 4. Add yourself to ``AUTHORS.rst``.
 
-.. [1] If you don't have all the necessary python versions available locally you can rely on Travis - it will
-       `run the tests <https://travis-ci.org/mossplix/python-momoapi/pull_requests>`_ for each change you add in the pull request.
+[1] If you don't have all the necessary python versions available locally you can rely on Travis - it runs the tests for each change you added in [pull requests](https://travis-ci.org/mossplix/python-momoapi/pull_requests).
 
        WARNING: It will be slower though ...
 
