@@ -36,29 +36,37 @@ Development
 
 To set up `python-momoapi` for local development:
 
-1. Fork `python-momoapi <https://github.com/mossplix/python-momoapi>`_
+1. Fork [python-momoapi](https://github.com/mossplix/python-momoapi)_
    (look for the "Fork" button).
 2. Clone your fork locally::
 
-    git clone git@github.com:your_name_here/python-momoapi.git
+```bash
+  $ git clone git@github.com:your_name_here/python-momoapi.git
+```
 
 3. Create a branch for local development::
 
-    git checkout -b name-of-your-bugfix-or-feature
+```bash
+  $ git checkout -b name-of-your-bugfix-or-feature
+```
 
-   Now you can make your changes locally.
+  You can now make your changes locally.
 
-4. When you're done making changes, run all the checks, doc builder and spell checker with `tox <http://tox.readthedocs.io/en/latest/install.html>`_ one command::
+4. When you're done making changes, run all the checks, doc builder and spell checker with `tox`, [Learn about tox](http://tox.readthedocs.io/en/latest/install.html) ::
 
-    tox
+```bash
+  $ tox
+```
 
 5. Commit your changes and push your branch to GitHub::
-
+```bash
     git add .
-    git commit -m "Your detailed description of your changes."
+    git commit -m "A detailed description of your changes."
     git push origin name-of-your-bugfix-or-feature
+```
 
 6. Submit a pull request through the GitHub website.
+
 
 Pull Request Guidelines
 -----------------------
