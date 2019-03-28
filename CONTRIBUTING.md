@@ -119,6 +119,74 @@ git push origin name-of-your-bugfix-or-feature
 
 ## Pull Request Guidelines
 
+### Make a Pull Request
+
+At this point, you should switch back to your master branch and make sure it's
+up to date with `momoapi-python`'s master branch:
+
+```sh
+git remote add upstream https://github.com/sparkplug/momoapi-python.git
+git checkout master
+git pull upstream master
+```
+
+Then update your feature branch from your local copy of master, and push it!
+
+```sh
+git checkout 32-add-swahili-translations
+git rebase master
+git push --set-upstream origin 32-add-swahili-translations
+```
+
+Finally, go to GitHub and make a Pull Request :D
+
+TravisCI will run our test suite against all supported Python versions. We care
+about quality, so your PR won't be merged until all tests pass. It's unlikely,
+but it's possible that your changes pass tests in one Python version but fail in
+another. In that case, you'll have to setup your development environment to use your Python version, and investigate what's going on!
+
+### Keeping your Pull Request updated
+
+If a maintainer asks you to "rebase" your PR, they're saying that a lot of code has changed, and that you need to update your branch so it's easier to merge.
+
+To learn more about rebasing in Git, there are a lot of [good](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) [resources](https://git-scm.com/book/en/v2/Git-Branching-Rebasing) but here's the suggested workflow:
+
+```sh
+git checkout 32-add-swahili-translations
+git pull --rebase upstream master
+git push --force-with-lease 32-add-swahili-translations
+```
+
+### Merging a PR (maintainers only)
+
+A PR can only be merged into master by a maintainer if:
+
+* It is passing CI.
+* It has been approved by at least one maintainers. If it was a maintainer who opened the PR, only one extra approval is needed.
+* It has no requested changes.
+* It is up to date with current master.
+
+Any maintainer is allowed to merge a PR if all of these conditions are met.
+
+### Shipping a release (maintainers only)
+
+Maintainers need to do the following to push out a release:
+
+* Make sure all pull requests are in and that changelog is current
+* Update version and changelog with new version number using semver
+* If it's not a patch level release, create a stable branch for that release,
+  otherwise switch to the stable branch corresponding to the patch release you
+  want to ship:
+
+  ```sh
+  git checkout master
+  git fetch momoapi-python
+  git rebase momoapi-python/master
+  # If the release is 2.1.x then this should be: 2-1-stable
+  git checkout -b N-N-stable
+  git push momoapi-python N-N-stable:N-N-stable
+  ```
+
 Before you make a Pull Request, make sure of the following: 
 
 1. Make sure your tests pass. Run `tox` beforehand.
