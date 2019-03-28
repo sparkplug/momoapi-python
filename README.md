@@ -164,25 +164,4 @@ client.transfer(amount="600", mobile="256772123456", external_id="123456789", pa
 
 ```
 
-# Unit Tests
-
-This library has a comprehensive test suite, which can be run using the `tox` command:
-
-## to view all test environments
-
-```bash
-$ tox -l  
-``` 
-## to run the tests for Python 2.7  
-
-```bash
-$ tox -e py27-cover 
-```
-
-## to run the tests for Python 3.4
-
-```bash
-$ tox -e py34-cover 
-``` 
-
 Thank you.
