@@ -54,6 +54,8 @@ To run all the test environments in *parallel*, you need to `pip install detox`:
 detox
 ```
 
+## Bugs and Fixes
+
 ### Did you find a bug?
 
 * **Ensure the bug was not already reported** by [searching all issues](https://github.com/sparkplug/momoapi-python/issues).
