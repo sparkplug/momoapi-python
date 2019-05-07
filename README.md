@@ -1,6 +1,15 @@
-# MTN Mobile Money API Client
+# MTN MoMo API Python Client</h1>
 
-MTN MoMo API Client for Python.
+<strong>Power your apps with our MTN MoMo API</strong>
+
+<div>
+  Join our active, engaged community: <br>
+  <a href="https://momodeveloper.mtn.com/">Website</a>
+  <span> | </span>
+  <a href="https://spectrum.chat/momo-api-developers/">Spectrum</a>
+  <br><br>
+</div>
+
 
 [![Build Status](https://travis-ci.com/sparkplug/momoapi-python.svg?branch=master)](https://travis-ci.com/sparkplug/momoapi-node)
 [![Latest Version](https://img.shields.io/pypi/v/tox-travis.svg)](https://badge.fury.io/js/mtn-momo)
@@ -8,7 +17,9 @@ MTN MoMo API Client for Python.
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/momo-api-developers/)
 
 
-# Installing
+# Usage
+
+## Installation
 
 Add the latest version of the library to your project using pip:
 
