@@ -2,5 +2,7 @@
 Authors
 =======
 
-* Moses Mugisha - http://sparkpl.ug
+* Moses Mugisha
 * Ray Besiga
+
+For [Sparkplug](http://sparkpl.ug)
