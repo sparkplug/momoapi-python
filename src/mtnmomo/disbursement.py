@@ -58,6 +58,5 @@ class Disbursement(MomoApi, object):
         if kwargs.get("callback_url"):
             headers["X-Callback-Url"] = kwargs.get("callback_url")
         url = super(Disbursement, self).config.baseUrl + "/disbursement/v1_0/transfer"
-        print(url)
         self.request("POST", url, headers, data)
         return {"transaction_ref": ref}
