@@ -140,7 +140,7 @@ You can create a disbursements client with the following
 
 ```python
 import os
-from mtnmomo.collection import Disbursement
+from mtnmomo.disbursement import Disbursement
 
 client = Disbursement({
     "DISBURSEMENT_USER_ID": os.environ.get("DISBURSEMENT_USER_ID"),
@@ -163,7 +163,7 @@ client = Disbursement({
 
 ```python
 import os
-from mtnmomo.collection import Disbursement
+from mtnmomo.disbursement import Disbursement
 
 client = Disbursement({
     "DISBURSEMENT_USER_ID": os.environ.get("DISBURSEMENT_USER_ID"),
