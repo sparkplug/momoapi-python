@@ -99,7 +99,6 @@ class MomoApi(ClientInterface, object):
     def interpret_response(self, resp):
         rcode = resp.status_code
         rheaders = resp.headers
-        print(resp)
 
         try:
             rbody = resp.json()
@@ -163,7 +162,6 @@ class MomoApi(ClientInterface, object):
             "Ocp-Apim-Subscription-Key": subscription_key
         }
         _url = self.config.baseUrl + url + transaction_id
-        print(_url)
         res = self.request("GET", _url, headers)
         return res.json()
 
@@ -192,5 +190,4 @@ class MomoApi(ClientInterface, object):
 
     def close(self):
         if self._session is not None:
-            print("closing!")
             self._session.close()
