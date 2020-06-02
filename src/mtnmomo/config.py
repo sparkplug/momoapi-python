@@ -18,7 +18,7 @@ class MomoConfig(object):
 
             REMITTANCE_USER_ID: os.environ.get("REMITTANCE_USER_ID"),
             REMITTANCE_API_SECRET: os.environ.get("REMITTANCE_API_SECRET"),
-            REMITTANCE_PRIMARY_KEY: os.envieon.get("REMITTANCE_PRIMARY_KEY")
+            REMITTANCE_PRIMARY_KEY: os.environ.get("REMITTANCE_PRIMARY_KEY")
 
             DISBURSEMENT_USER_ID: os.environ.get("DISBURSEMENT_USER_ID"),
             DISBURSEMENT_API_SECRET: os.environ.get("DISBURSEMENTS_API_SECRET"),
