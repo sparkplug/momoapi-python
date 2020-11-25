@@ -55,7 +55,7 @@ These are the credentials we shall use for the sandbox environment. In productio
 Before we can fully utilize the library, we need to specify global configurations. The global configuration must contain the following:
 
 * `BASE_URL`: An optional base url to the MTN Momo API. By default the staging base url will be used
-* `ENVIRONMENT`: Optional enviroment, either "sandbox" or "production". Default is 'sandbox'
+* `ENVIRONMENT`: Optional environment, either "sandbox" or "production". Default is 'sandbox'
 * `CALLBACK_HOST`: The domain where you webhooks urls are hosted. This is mandatory.
 
 Once you have specified the global variables, you can now provide the product-specific variables. Each MoMo API product requires its own authentication details i.e its own `Subscription Key`, `User ID` and `User Secret`, also sometimes refered to as the `API Secret`. As such, we have to configure subscription keys for each product you will be using. 
