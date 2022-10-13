@@ -71,7 +71,7 @@ setup(
 
     ],
     install_requires=[
-        'requests == 2.21.0',
+        'requests ~= 2.2',
         'Click==7.0',
         'phonenumbers'
 
