@@ -1,7 +1,21 @@
 # MTN MoMo API Python Client</h1>
 
-<strong>Power your apps with our MTN MoMo API</strong>
 
+
+**🛑 This repository is no longer actively maintained.**
+
+As of July 14, 2025, this project is no longer under active development. This means:
+* No new features will be added.
+* Bugs will not be fixed.
+* Pull requests will not be reviewed or merged.
+* Issues will not be addressed.
+
+We appreciate your interest and contributions.
+**Thank you.**
+
+<hr>
+
+<strong>Power your apps with our MTN MoMo API</strong>
 <div>
   Join our active, engaged community: <br>
   <a href="https://momodeveloper.mtn.com/">Website</a>
